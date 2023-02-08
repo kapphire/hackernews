@@ -309,7 +309,7 @@ ol a {
 
 .panel {
     width: 100%;
-    max-width: 540px;
+    max-width: 1000px;
     margin: 0 auto 40px auto;
     z-index: 9;
 }
@@ -334,8 +334,20 @@ ol a {
     line-height: 24px;
     padding: 10px;
     border: 1px solid;
+    margin-top: 10px;
 }
 
+.panel-text .title {
+    color: #609;
+}
+
+.panel-text .title .by {
+    color: red;
+}
+
+.panel-text .title .score {
+    color: blue;
+}
 
 .footer {
     width: 100%;
@@ -684,5 +696,23 @@ ol a {
 .panel.--mid {
     max-width: 640px;
     font-size: 14px;
+}
+
+code {
+    background-color: #272822;
+    color: #f8f8f2;
+    border-radius: 0.3rem;
+    padding: 4px 5px 5px;
+    white-space: nowrap;
+}
+
+pre code {
+  white-space: inherit;
+}
+
+pre {
+  background-color: #272822;
+  padding: 5px;
+  border-radius: 0.3em;
 }
 

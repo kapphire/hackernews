@@ -39,7 +39,7 @@ async def home(
     if q:
         try:
             filtered = Hackernews.filter_by_query(db, q)
-            hackernews = Hackernews.filter_by_ids(db, filtered)
+            # hackernews = Hackernews.filter_by_ids(db, filtered)
         except Exception as e:
             print(e)
             pass
@@ -47,7 +47,7 @@ async def home(
         "index.html",
         {
             "request": request,
-            "hackernews": hackernews,
+            "hackernews": filtered,
             "query": q,}
     )
 

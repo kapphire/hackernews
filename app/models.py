@@ -135,6 +135,25 @@ class Hackernews(Base, BaseMixin):
             return True
         return False
 
+    @staticmethod
+    def score_distrib(qs):
+        scores = [r.score for r in qs if isinstance(r.score,int)]
+        res = Hackernews.distrib(scores)
+        return res
+
+    @staticmethod
+    def text_distrib(qs):
+        texts = [len(r.text) for r in qs]
+        res = Hackernews.distrib(texts)
+        return res
+
+    @staticmethod
+    def distrib(vals):
+        min_val = min(vals)
+        max_val = max(vals)
+        avg_val = sum(vals) / len(vals)
+        return {"min": min_val, "max": max_val, "avg": avg_val}
+
     @classmethod
     def filter_by_query(cls, db, query):
         D_I = dict()
@@ -142,24 +161,46 @@ class Hackernews(Base, BaseMixin):
         embed_search = np.array(Embedding.call_embed([query]))
         index = INDEX[0]
 
-        D, I=index.search(embed_search.astype('float32'), 50)
+        D, I=index.search(embed_search.astype('float32'), 200)
 
         results = []
+        dists = []
         hackernews = db.query(cls).filter(cls.id.in_((I[0] + 1).tolist()))
 
         for i in range(0, len(I[0])):
             D_I[I[0][i] + 1] = D[0][i]
+            dists.append(D[0][i])
+
+
+        score_dict = cls.score_distrib(hackernews)
+        text_dict = cls.text_distrib(hackernews)
+        dist_dict = cls.distrib(dists)
 
         for news in hackernews:
+            descendants = 0 if news.descendants else 0
+            if news.score and isinstance(news.score,int):                
+                fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.5 * ((news.score - score_dict['avg']) / (score_dict['max'] - score_dict['min'])) + 0.1 * descendants
+            else:
+                fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.1 * descendants
+
             results.append({
                 'title': news.title,
-                'score': news.score,
                 'hackernews_id': news.hackernews_id,
                 'by': news.by,
-                'dist': D_I[news.id]
+                'fn_score': fn_score,
+                'text': news.text,
+                'score': news.score,
             })
-        results = sorted(results, key=lambda k: k['score'], reverse=True)
-        return results
+        # for news in hackernews:
+        #     results.append({
+        #         'title': news.title,
+        #         'hackernews_id': news.hackernews_id,
+        #         'by': news.by,
+        #         'score': news.score
+        #     })
+        # results = sorted(results, key=lambda k: k['score'], reverse=True)
+        results = sorted(results, key=lambda k: k['fn_score'], reverse=True)
+        return results[:50]
 
     @classmethod
     def filter_by_ids(cls, db, hackernews):
