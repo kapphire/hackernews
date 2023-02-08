@@ -1,5 +1,4 @@
 .local
-Pipfile
 Pipfile.lock
 
 pyenc/
