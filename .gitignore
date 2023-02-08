@@ -1,0 +1,56 @@
+.local
+Pipfile
+Pipfile.lock
+
+pyenc/
+pyenv/
+**/*.swp
+**/*.orig
+**/*.pyc
+staticfiles/
+files/
+~*.swn
+.venv
+audio/
+.vscode
+**/*.swo
+*.log
+
+.venv/
+.vscode/
+venv
+data.ms/
+# dependencies
+node_modules
+
+# testing
+gitcoverage
+
+# production
+build
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+.idea
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# *-lock.*
+# *.lock
+
+.sqlite3
+sql_app.db
+
+.pytest_cache
+.coverage
+
+media/
