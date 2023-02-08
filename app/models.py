@@ -202,7 +202,7 @@ class Hackernews(Base, BaseMixin):
                 'descendants': news.descendants,
                 'dist': D_I[news.id],
                 'url': news.url,
-                'time_ts': news.time,
+                'time': news.time_ts,
             })
         results = sorted(results, key=lambda k: k['dist'], reverse=False)
         # results = sorted(results, key=lambda k: k['fn_score'], reverse=True)

@@ -40,9 +40,14 @@
             <div class="panel-title">Query Result?</div>
             {% for news in hackernews %}
                 <div class="panel-text">
-                    <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span></p>
+                    <p>
+                        <a class="title" href="https://news.ycombinator.com/item?id={{ news.hackernews_id }}">{{ news.title }}</a>
+                    </p>
                     <!-- <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span></p> -->
-                    <p class="score">url: {{ news.url }}</p>
+                    {% if news.url %}
+                        <a class="score" href="{{ news.url }}">{{ news.url }}</a>
+                    {% endif %}
+                    <p class="by">by: {{ news.by }}</p>
                     <p class="score">score: {{ news.score }}</p>
                     <p class="score">dist from faiss: {{ news.dist }}</p>
                     <p class="score">descendants: {{ news.descendants }}</p>
