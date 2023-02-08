@@ -175,31 +175,33 @@ class Hackernews(Base, BaseMixin):
         score_dict = cls.score_distrib(hackernews)
         text_dict = cls.text_distrib(hackernews)
         dist_dict = cls.distrib(dists)
+        print(dist_dict)
 
-        for news in hackernews:
-            descendants = 0 if news.descendants else 0
-            if news.score and isinstance(news.score,int):                
-                fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.5 * ((news.score - score_dict['avg']) / (score_dict['max'] - score_dict['min'])) + 0.1 * descendants
-            else:
-                fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.1 * descendants
-
-            results.append({
-                'title': news.title,
-                'hackernews_id': news.hackernews_id,
-                'by': news.by,
-                'fn_score': fn_score,
-                'text': news.text,
-                'score': news.score,
-            })
         # for news in hackernews:
+        #     descendants = 0 if news.descendants else 0
+        #     if news.score and isinstance(news.score,int):                
+        #         fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.5 * ((news.score - score_dict['avg']) / (score_dict['max'] - score_dict['min'])) + 0.1 * descendants
+        #     else:
+        #         fn_score = 0.2 * ((D_I[news.id] - dist_dict['avg']) / (dist_dict['max'] - dist_dict['min'])) + 0.2 * ((len(news.text) - text_dict['avg']) / (text_dict['max'] - text_dict['min'])) + 0.1 * descendants
+
         #     results.append({
         #         'title': news.title,
         #         'hackernews_id': news.hackernews_id,
         #         'by': news.by,
-        #         'score': news.score
+        #         'fn_score': fn_score,
+        #         'text': news.text,
+        #         'score': news.score,
         #     })
-        # results = sorted(results, key=lambda k: k['score'], reverse=True)
-        results = sorted(results, key=lambda k: k['fn_score'], reverse=True)
+        for news in hackernews:
+            results.append({
+                'title': news.title,
+                'hackernews_id': news.hackernews_id,
+                'by': news.by,
+                'text': news.text,
+                'score': D_I[news.id],
+            })
+        results = sorted(results, key=lambda k: k['score'], reverse=False)
+        # results = sorted(results, key=lambda k: k['fn_score'], reverse=True)
         return results[:50]
 
     @classmethod

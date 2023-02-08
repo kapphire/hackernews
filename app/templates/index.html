@@ -42,7 +42,7 @@
                 <div class="panel-text">
                     <!-- <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span>&nbsp;&nbsp;<span class="score">{{ news.score }}</span></p> -->
                     <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span></p>
-                    {{ news.text }}
+                    {{ news.text|safe }}
                 </div>
             {% endfor %}
         </div>
