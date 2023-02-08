@@ -40,9 +40,13 @@
             <div class="panel-title">Query Result?</div>
             {% for news in hackernews %}
                 <div class="panel-text">
-                    <!-- <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span>&nbsp;&nbsp;<span class="score">{{ news.score }}</span></p> -->
                     <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span></p>
-                    {{ news.text|safe }}
+                    <!-- <p class="title">{{ news.title }}&nbsp;&nbsp;<span class="by">{{ news.by }}</span></p> -->
+                    <p class="score">url: {{ news.url }}</p>
+                    <p class="score">score: {{ news.score }}</p>
+                    <p class="score">descendants: {{ news.descendants }}</p>
+                    <p class="score">time: {{ news.time }}</p>
+                    <p>{{ news.text|safe }}</p>
                 </div>
             {% endfor %}
         </div>

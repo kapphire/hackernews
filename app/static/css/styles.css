@@ -341,12 +341,12 @@ ol a {
     color: #609;
 }
 
-.panel-text .title .by {
-    color: red;
+.panel-text .score {
+    color: blue;
 }
 
-.panel-text .title .score {
-    color: blue;
+.panel-text .title .by {
+    color: red;
 }
 
 .footer {
