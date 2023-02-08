@@ -1,0 +1,19 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name 68.183.142.111;
+
+    root /var/www/kagi;
+    index index.html index.nginx-debian.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    location /hackernews {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:8001;
+        access_log /var/log/nginx/hackernews.com.access.log timed_combined;
+    }
+}
