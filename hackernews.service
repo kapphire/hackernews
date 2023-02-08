@@ -6,8 +6,8 @@ After=network.target
 User=root
 Group=www-data
 WorkingDirectory=/root/hackernews
-Environment="PATH=/root/.local/share/virtualenvs/vxai-KfrHmZkv/bin"
-ExecStart=/root/.local/share/virtualenvs/vxai-KfrHmZkv/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.main:app
+Environment="PATH=/root/.local/share/virtualenvs/hackernews-XAnIAJGW/bin"
+ExecStart=/root/.local/share/virtualenvs/hackernews-XAnIAJGW/bin/gunicorn --bind 0.0.0.0:8001 -w 1 -k uvicorn.workers.UvicornWorker app.main:app
 
 [Install]
 WantedBy=multi-user.target
