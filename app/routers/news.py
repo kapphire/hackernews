@@ -4,7 +4,7 @@ from fastapi import Depends, APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from fastapi_cache import caches
 from fastapi_cache.backends.memory import CACHE_KEY
-from app.models import Hackernews
+from app.models import Hackernews, Embedding
 from app.dependencies import (
     get_db,
     get_templates,
@@ -65,9 +65,25 @@ async def update_news(db: Session = Depends(get_db)):
 async def check_news(db: Session = Depends(get_db)):
     try:
         import pickle
-        print(db.query(Hackernews).filter(Hackernews.embedding != None).count())
+        import numpy as np
+        # print(db.query(Hackernews).filter(Hackernews.embedding != None).count())
         # instance = db.query(Hackernews).first()
         # print(pickle.loads(instance.embedding))
+
+
+        # e1 = []
+        # for news in db.query(Hackernews):
+        #     e1.append(pickle.loads(news.embedding))
+        # e1 = np.concatenate(e1)
+        # try:
+        #     instance = Embedding(data=pickle.dumps(e1))
+        #     db.add(instance)
+        #     db.commit()
+        #     db.refresh(instance)
+        # except Exception as e:
+        #     print(e)
+        #     db.rollback()
+
     except Exception as e:
         return {"message": str(e)}
     return {"message": "success"}

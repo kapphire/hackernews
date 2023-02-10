@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 db = SessionLocal()
 
 # init_data(models.Embedding.index_flat_l2(db))
-init_data(models.Hackernews, db)
+init_data(models.Embedding, db)
 
 
 app = FastAPI()
