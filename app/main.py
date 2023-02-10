@@ -1,7 +1,4 @@
-import time
-from starlette.responses import Response
-
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from pathlib import Path
@@ -16,7 +13,8 @@ models.Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
-init_data(models.Embedding.index_flat_l2(db))
+# init_data(models.Embedding.index_flat_l2(db))
+init_data(models.Hackernews, db)
 
 
 app = FastAPI()

@@ -1,18 +1,10 @@
-import math
-from datetime import datetime
-
 from typing import Union
 from sqlalchemy.orm import Session
-from starlette.responses import Response
 from fastapi import Depends, APIRouter, Request
 from fastapi.templating import Jinja2Templates
-from fastapi_cache import caches, close_caches
-from fastapi_cache.backends.memory import CACHE_KEY, InMemoryCacheBackend
-from fastapi_utils.session import FastAPISessionMaker
-from fastapi_utils.tasks import repeat_every
-
-from app import env
-from app.models import Hackernews, Embedding
+from fastapi_cache import caches
+from fastapi_cache.backends.memory import CACHE_KEY
+from app.models import Hackernews
 from app.dependencies import (
     get_db,
     get_templates,
@@ -55,7 +47,6 @@ async def home(
 @router.get("/embedding/")
 async def update_embedding(db: Session = Depends(get_db)):
     try:
-        Embedding.get_embedding_str(db)
         return {"message": "success"}
     except Exception as e:
         return {"message": str(e)}
@@ -73,9 +64,10 @@ async def update_news(db: Session = Depends(get_db)):
 @router.get("/test")
 async def check_news(db: Session = Depends(get_db)):
     try:
-        # Hackernews.import_csv(db)
-        print(db.query(Embedding).count())
-        # print(db.query(Embedding).first().to_dict())
+        import pickle
+        print(db.query(Hackernews).filter(Hackernews.embedding != None).count())
+        # instance = db.query(Hackernews).first()
+        # print(pickle.loads(instance.embedding))
     except Exception as e:
         return {"message": str(e)}
     return {"message": "success"}
